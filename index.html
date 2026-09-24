@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SDJ Hand Made – Handcrafted Accessories</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream:  #FDF6F0;
+    --blush:  #F2C4CE;
+    --rose:   #E8A598;
+    --mauve:  #6B4F4F;
+    --deep:   #3E2B2B;
+    --card:   #FFF9F5;
+    --muted:  #B07878;
+    --border: #F0D8D2;
+    --green:  #25D366;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--cream);
+    color: var(--deep);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ══════════════════════════════════
+     ANIMATED BACKGROUND CANVAS
+  ══════════════════════════════════ */
+  #bg-canvas {
+    position: fixed; inset: 0; z-index: 0;
+    pointer-events: none;
+  }
+
+  /* everything above canvas */
+  nav, main, footer, #admin-overlay, .wa-float, #toast { position: relative; z-index: 1; }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(253,246,240,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw; height: 64px;
+    animation: slideDown .6s ease both;
+  }
+  @keyframes slideDown {
+    from { opacity:0; transform: translateY(-20px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.45rem; font-weight: 700;
+    color: var(--mauve); text-decoration: none; letter-spacing: .02em;
+  }
+  .nav-logo span { color: var(--rose); font-style: italic; }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a {
+    font-size: .85rem; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--mauve); text-decoration: none; font-weight: 700;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--rose); }
+  .nav-admin-btn {
+    background: var(--blush); color: var(--mauve) !important;
+    padding: 7px 18px; border-radius: 20px;
+    font-size: .78rem !important; transition: background .2s !important;
+  }
+  .nav-admin-btn:hover { background: var(--rose) !important; color: #fff !important; }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative; overflow: hidden;
+    padding: 90px 5vw 80px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 40px; flex-wrap: wrap;
+    background: linear-gradient(135deg, rgba(253,246,240,0.6) 60%, rgba(252,232,232,0.6) 100%);
+    min-height: 420px;
+  }
+  .hero-text { flex: 1; min-width: 260px; max-width: 520px; }
+  .hero-eyebrow {
+    font-size: .75rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 18px; font-weight: 700;
+    animation: fadeUp .7s .3s ease both;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    line-height: 1.12; color: var(--deep);
+    margin-bottom: 22px;
+    animation: fadeUp .7s .45s ease both;
+  }
+  .hero-title em { color: var(--rose); font-style: italic; }
+  .hero-sub {
+    font-size: 1rem; color: var(--muted); line-height: 1.7;
+    max-width: 400px; margin-bottom: 34px;
+    animation: fadeUp .7s .6s ease both;
+  }
+  .hero-cta-row {
+    display: flex; gap: 14px; flex-wrap: wrap;
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(28px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  .btn-primary {
+    background: var(--rose); color: #fff;
+    padding: 13px 30px; border-radius: 30px;
+    font-size: .88rem; font-weight: 700; letter-spacing: .06em;
+    text-decoration: none; transition: background .2s, transform .15s, box-shadow .2s;
+    border: none; cursor: pointer;
+    position: relative; overflow: hidden;
+    animation: fadeUp .7s .75s ease both, glowPulse 3.5s ease-in-out infinite;
+  }
+  .btn-primary::after {
+    content: ''; position: absolute; top: 0; left: -75%;
+    width: 50%; height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,.55), transparent);
+    transform: skewX(-20deg);
+    animation: shimmerSweep 3.5s ease-in-out infinite;
+  }
+  @keyframes shimmerSweep {
+    0%   { left: -75%; }
+    50%  { left: 130%; }
+    100% { left: 130%; }
+  }
+  @keyframes glowPulse {
+    0%, 100% { box-shadow: 0 4px 14px rgba(232,165,152,.25); }
+    50%      { box-shadow: 0 4px 24px rgba(232,165,152,.55); }
+  }
+  .btn-primary:hover { background: #d48878; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,165,152,.4); animation-play-state: paused; }
+  .btn-outline {
+    background: transparent; color: var(--mauve);
+    padding: 13px 30px; border-radius: 30px;
+    font-size: .88rem; font-weight: 700; letter-spacing: .06em;
+    text-decoration: none; border: 2px solid var(--blush);
+    transition: border-color .2s, color .2s, transform .15s; cursor: pointer;
+    animation: fadeUp .7s .8s ease both;
+  }
+  .btn-outline:hover { border-color: var(--rose); color: var(--rose); transform: translateY(-2px); }
+
+  /* hero SVG deco */
+  .hero-deco {
+    flex: 0 0 auto; position: relative;
+    width: clamp(200px, 35vw, 380px); height: clamp(200px, 35vw, 380px);
+    animation: fadeUp .9s .5s ease both, idleFloat 4.5s ease-in-out infinite 1.4s;
+  }
+  @keyframes idleFloat {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
+  }
+  .hero-deco svg { width: 100%; height: 100%; }
+  .petal-spin { transform-origin: 190px 190px; animation: slowSpin 20s linear infinite; }
+  .petal-spin-rev { transform-origin: 190px 190px; animation: slowSpin 28s linear infinite reverse; }
+  .sparkle-float { animation: sparkleFloat 3s ease-in-out infinite; }
+  .sparkle-float:nth-child(2) { animation-delay: -1s; }
+  .sparkle-float:nth-child(3) { animation-delay: -2s; }
+  @keyframes slowSpin { to { transform: rotate(360deg); } }
+  @keyframes sparkleFloat {
+    0%,100% { transform: translateY(0) scale(1); opacity:.8; }
+    50%      { transform: translateY(-8px) scale(1.2); opacity:1; }
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section-header { text-align: center; margin-bottom: 48px; }
+  .section-eyebrow {
+    font-size: .72rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 10px; font-weight: 700;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    color: var(--deep); font-weight: 700;
+  }
+  .section-title em { color: var(--rose); font-style: italic; }
+  .section-divider {
+    width: 60px; height: 3px; border-radius: 2px;
+    background: linear-gradient(90deg, var(--blush), var(--rose));
+    margin: 14px auto 0;
+    animation: growLine 1s ease both;
+  }
+  @keyframes growLine {
+    from { width: 0; opacity:0; }
+    to   { width: 60px; opacity:1; }
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity .65s ease, transform .65s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-36px);
+    transition: opacity .65s ease, transform .65s ease;
+  }
+  .reveal-left.visible { opacity:1; transform: translateX(0); }
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(36px);
+    transition: opacity .65s ease, transform .65s ease;
+  }
+  .reveal-right.visible { opacity:1; transform: translateX(0); }
+
+  /* staggered children */
+  .stagger-children > * { opacity:0; transform:translateY(28px); transition: opacity .5s ease, transform .5s ease; }
+  .stagger-children.visible > *:nth-child(1)  { opacity:1; transform:none; transition-delay: .05s; }
+  .stagger-children.visible > *:nth-child(2)  { opacity:1; transform:none; transition-delay: .12s; }
+  .stagger-children.visible > *:nth-child(3)  { opacity:1; transform:none; transition-delay: .19s; }
+  .stagger-children.visible > *:nth-child(4)  { opacity:1; transform:none; transition-delay: .26s; }
+  .stagger-children.visible > *:nth-child(5)  { opacity:1; transform:none; transition-delay: .33s; }
+  .stagger-children.visible > *:nth-child(6)  { opacity:1; transform:none; transition-delay: .40s; }
+  .stagger-children.visible > *:nth-child(n+7){ opacity:1; transform:none; transition-delay: .47s; }
+
+  /* ── SHOP ── */
+  #shop { padding: 80px 5vw; }
+
+  .filter-tabs {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    justify-content: center; margin-bottom: 42px;
+  }
+  .filter-tab {
+    padding: 8px 22px; border-radius: 20px; cursor: pointer;
+    font-size: .82rem; font-weight: 700; letter-spacing: .06em;
+    border: 2px solid var(--border); background: transparent;
+    color: var(--muted); transition: all .2s;
+  }
+  .filter-tab.active, .filter-tab:hover {
+    background: var(--blush); border-color: var(--blush); color: var(--mauve);
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 28px;
+  }
+  .product-card {
+    background: var(--card);
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: transform .28s cubic-bezier(.34,1.56,.64,1), box-shadow .28s ease;
+    position: relative;
+    opacity: 0; transform: translateY(32px) scale(.97);
+  }
+  .product-card.card-visible {
+    opacity: 1; transform: translateY(0) scale(1);
+    animation: floatCard 6s ease-in-out infinite;
+  }
+  .product-card.card-visible:nth-child(1) { animation-delay: 0s; }
+  .product-card.card-visible:nth-child(2) { animation-delay: .4s; }
+  .product-card.card-visible:nth-child(3) { animation-delay: .8s; }
+  .product-card.card-visible:nth-child(4) { animation-delay: 1.2s; }
+  .product-card.card-visible:nth-child(5) { animation-delay: 1.6s; }
+  .product-card.card-visible:nth-child(6) { animation-delay: 2s; }
+  .product-card.card-visible:nth-child(7) { animation-delay: 2.4s; }
+  .product-card.card-visible:nth-child(8) { animation-delay: 2.8s; }
+  @keyframes floatCard {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50%      { transform: translateY(-8px) scale(1); }
+  }
+  .product-card:hover {
+    animation-play-state: paused;
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 22px 50px rgba(107,79,79,.16);
+  }
+
+  .product-img-wrap {
+    position: relative; width: 100%; padding-bottom: 100%; background: #f9eded; overflow: hidden;
+  }
+  .product-img-wrap img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    transition: transform .5s ease;
+  }
+  .product-card:hover .product-img-wrap img { transform: scale(1.08); }
+
+  .product-badge {
+    position: absolute; top: 12px; left: 12px;
+    background: var(--rose); color: #fff;
+    font-size: .68rem; font-weight: 700; letter-spacing: .08em;
+    padding: 4px 10px; border-radius: 10px; text-transform: uppercase;
+    animation: popIn .4s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  @keyframes popIn {
+    from { opacity:0; transform: scale(.5); }
+    to   { opacity:1; transform: scale(1); }
+  }
+  .product-no-img {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-size: 2.5rem; color: var(--blush);
+  }
+  .product-no-img span { font-size: .75rem; color: var(--muted); margin-top: 8px; font-family: 'Lato', sans-serif; }
+
+  .product-info { padding: 18px 18px 20px; }
+  .product-category {
+    font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 5px;
+  }
+  .product-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem; font-weight: 600; color: var(--deep);
+    margin-bottom: 6px; line-height: 1.3;
+  }
+  .product-desc {
+    font-size: .8rem; color: var(--muted); line-height: 1.55;
+    margin-bottom: 14px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .product-footer { display: flex; align-items: center; justify-content: space-between; }
+  .product-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; font-weight: 700; color: var(--mauve);
+  }
+  .product-order-btn {
+    background: var(--blush); color: var(--mauve);
+    border: none; border-radius: 20px;
+    padding: 7px 16px; font-size: .78rem; font-weight: 700;
+    cursor: pointer; transition: background .2s, color .2s, transform .15s, box-shadow .2s;
+  }
+  .product-order-btn:hover { background: var(--rose); color: #fff; transform: translateY(-2px) scale(1.05); box-shadow: 0 6px 16px rgba(232,165,152,.45); }
+
+  .empty-state {
+    text-align: center; padding: 60px 20px; grid-column: 1/-1;
+    color: var(--muted);
+  }
+  .empty-state .emoji { font-size: 3rem; margin-bottom: 14px; }
+
+  /* ── FEATURES STRIP ── */
+  .features {
+    background: linear-gradient(135deg, #fce8e8 0%, #fdf6f0 100%);
+    padding: 60px 5vw; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  }
+  .features-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 32px; max-width: 900px; margin: 0 auto;
+  }
+  .feature-item { text-align: center; }
+  .feature-icon {
+    width: 35px; height: 35px; margin: 0 auto 12px;
+    display: block; color: var(--rose);
+    animation: bounceIn .6s ease both;
+  }
+  .feature-icon svg, .ui-icon svg { width: 100%; height: 100%; display: block; }
+  .ui-icon { display:inline-flex; align-items:center; justify-content:center; vertical-align:middle; }
+  .product-no-img .ui-icon { width:42px; height:42px; margin-bottom:8px; color:var(--rose); }
+  .manage-item-img .ui-icon { width:24px; height:24px; color:var(--rose); }
+  .empty-state .ui-icon { width:48px; height:48px; margin:0 auto; color:var(--rose); }
+  @keyframes bounceIn {
+    0%   { transform: scale(0); opacity:0; }
+    70%  { transform: scale(1.15); }
+    100% { transform: scale(1); opacity:1; }
+  }
+  .feature-title {
+    font-family: 'Playfair Display', serif; font-size: 1rem;
+    color: var(--deep); margin-bottom: 6px;
+  }
+  .feature-text { font-size: .82rem; color: var(--muted); line-height: 1.55; }
+
+  /* ── WHATSAPP FLOAT ── */
+  .wa-float {
+    position: fixed; bottom: 26px; right: 26px; z-index: 999;
+    background: var(--green); color: #fff;
+    width: 58px; height: 58px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; font-size: 1.6rem;
+    box-shadow: 0 6px 22px rgba(37,211,102,.35);
+    transition: transform .2s, box-shadow .2s;
+    animation: pulseRing 2.5s ease-in-out infinite;
+  }
+  .wa-float:hover { transform: scale(1.12); box-shadow: 0 8px 28px rgba(37,211,102,.55); animation: none; }
+  @keyframes pulseRing {
+    0%,100% { box-shadow: 0 0 0 0 rgba(37,211,102,.5), 0 6px 22px rgba(37,211,102,.35); }
+    50%      { box-shadow: 0 0 0 12px rgba(37,211,102,0), 0 6px 22px rgba(37,211,102,.35); }
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--deep); color: #e8c8c8;
+    padding: 50px 5vw 30px;
+    display: flex; flex-direction: column; align-items: center; gap: 24px;
+  }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #fff; font-weight: 700; }
+  .footer-logo span { color: var(--blush); font-style: italic; }
+  .footer-tagline { font-size: .85rem; color: #c0a0a0; text-align: center; }
+  .footer-social { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+  .social-btn {
+    display: flex; align-items: center; gap: 8px;
+    padding: 9px 20px; border-radius: 22px; border: 1px solid #5a3f3f;
+    color: #c0a0a0; text-decoration: none; font-size: .82rem; font-weight: 700;
+    transition: border-color .2s, color .2s, transform .15s;
+  }
+  .social-btn:hover { border-color: var(--blush); color: var(--blush); transform: translateY(-2px); }
+  .footer-copy { font-size: .72rem; color: #7a5555; }
+
+  /* ══ ADMIN ══ */
+  #admin-overlay {
+    display: none; position: fixed; inset: 0; z-index: 9000;
+    background: rgba(62,43,43,.55); backdrop-filter: blur(4px);
+    align-items: center; justify-content: center;
+  }
+  #admin-overlay.open { display: flex; }
+  .admin-modal {
+    background: #fff; border-radius: 22px;
+    width: min(92vw, 960px); max-height: 90vh;
+    overflow-y: auto; box-shadow: 0 30px 80px rgba(62,43,43,.22);
+    display: flex; flex-direction: column;
+    animation: modalIn .35s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  @keyframes modalIn {
+    from { opacity:0; transform: scale(.9) translateY(20px); }
+    to   { opacity:1; transform: scale(1) translateY(0); }
+  }
+  .admin-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 28px 18px; border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; background: #fff; z-index: 10;
+    border-radius: 22px 22px 0 0;
+  }
+  .admin-header h2 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--deep); }
+  .admin-close {
+    background: var(--border); border: none; border-radius: 50%;
+    width: 34px; height: 34px; cursor: pointer; font-size: 1.1rem;
+    color: var(--mauve); display: flex; align-items: center; justify-content: center;
+    transition: background .2s, transform .2s;
+  }
+  .admin-close:hover { background: var(--blush); transform: rotate(90deg); }
+  .admin-body { padding: 24px 28px; }
+  #admin-login { display: flex; flex-direction: column; gap: 16px; max-width: 360px; margin: 0 auto; padding: 20px 0; }
+  #admin-login h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--deep); text-align: center; }
+  #admin-login p { font-size: .83rem; color: var(--muted); text-align: center; }
+  .admin-input {
+    padding: 11px 16px; border-radius: 10px;
+    border: 1.5px solid var(--border); font-size: .9rem;
+    color: var(--deep); outline: none; transition: border-color .2s;
+    font-family: 'Lato', sans-serif;
+  }
+  .admin-input:focus { border-color: var(--rose); }
+  .admin-login-btn {
+    background: var(--rose); color: #fff; border: none;
+    border-radius: 25px; padding: 12px; font-size: .9rem; font-weight: 700;
+    cursor: pointer; transition: background .2s, transform .15s;
+  }
+  .admin-login-btn:hover { background: #d48878; transform: translateY(-1px); }
+  .admin-error { color: #c0392b; font-size: .8rem; text-align: center; display: none; }
+  #admin-dashboard { display: none; }
+  .admin-tabs { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+  .admin-tab {
+    padding: 8px 20px; border-radius: 18px; cursor: pointer;
+    font-size: .82rem; font-weight: 700; border: 2px solid var(--border);
+    background: transparent; color: var(--muted); transition: all .18s;
+  }
+  .admin-tab.active { background: var(--rose); border-color: var(--rose); color: #fff; }
+  .admin-form { display: flex; flex-direction: column; gap: 16px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group label { font-size: .78rem; font-weight: 700; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+  .form-select {
+    padding: 10px 14px; border-radius: 10px; border: 1.5px solid var(--border);
+    font-size: .88rem; color: var(--deep); background: #fff; outline: none;
+    transition: border-color .2s; font-family: 'Lato', sans-serif;
+  }
+  .form-select:focus { border-color: var(--rose); }
+  .form-textarea {
+    padding: 10px 14px; border-radius: 10px; border: 1.5px solid var(--border);
+    font-size: .88rem; color: var(--deep); resize: vertical; min-height: 80px;
+    font-family: 'Lato', sans-serif; outline: none; transition: border-color .2s;
+  }
+  .form-textarea:focus { border-color: var(--rose); }
+  .img-preview-wrap {
+    border: 2px dashed var(--border); border-radius: 12px;
+    padding: 16px; text-align: center; cursor: pointer;
+    transition: border-color .2s; background: var(--cream);
+  }
+  .img-preview-wrap:hover { border-color: var(--rose); }
+  .img-preview-wrap img { max-height: 120px; max-width: 100%; border-radius: 8px; margin-top: 8px; }
+  .img-preview-wrap p { font-size: .8rem; color: var(--muted); }
+  .admin-submit-btn {
+    background: var(--rose); color: #fff; border: none;
+    border-radius: 25px; padding: 12px 28px; font-size: .9rem; font-weight: 700;
+    cursor: pointer; transition: background .2s, transform .15s; align-self: flex-start;
+  }
+  .admin-submit-btn:hover { background: #d48878; transform: translateY(-1px); }
+  .admin-submit-btn.edit-mode { background: var(--mauve); }
+  .badge-count {
+    display: inline-block; background: var(--rose); color: #fff;
+    border-radius: 10px; padding: 1px 8px; font-size: .7rem; margin-left: 6px;
+  }
+  .manage-list { display: flex; flex-direction: column; gap: 12px; }
+  .manage-item {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--cream); border-radius: 14px;
+    padding: 12px 16px; border: 1px solid var(--border);
+    transition: transform .2s;
+  }
+  .manage-item:hover { transform: translateX(4px); }
+  .manage-item-img {
+    width: 54px; height: 54px; border-radius: 10px;
+    object-fit: cover; background: var(--blush);
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+  }
+  .manage-item-img img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+  .manage-item-info { flex: 1; min-width: 0; }
+  .manage-item-name { font-weight: 700; font-size: .92rem; color: var(--deep); }
+  .manage-item-meta { font-size: .78rem; color: var(--muted); margin-top: 2px; }
+  .manage-item-actions { display: flex; gap: 8px; }
+  .btn-edit {
+    padding: 6px 14px; border-radius: 14px; border: 2px solid var(--blush);
+    background: transparent; color: var(--mauve); font-size: .75rem; font-weight: 700;
+    cursor: pointer; transition: all .18s;
+  }
+  .btn-edit:hover { background: var(--blush); }
+  .btn-delete {
+    padding: 6px 14px; border-radius: 14px; border: 2px solid #f9d0d0;
+    background: transparent; color: #c0392b; font-size: .75rem; font-weight: 700;
+    cursor: pointer; transition: all .18s;
+  }
+  .btn-delete:hover { background: #fde8e8; }
+
+  /* TOAST */
+  #toast {
+    position: fixed; bottom: 100px; right: 26px; z-index: 9999;
+    background: var(--deep); color: #fff;
+    padding: 12px 22px; border-radius: 12px; font-size: .85rem;
+    opacity: 0; transform: translateY(14px);
+    transition: opacity .25s, transform .25s;
+    pointer-events: none;
+  }
+  #toast.show { opacity: 1; transform: translateY(0); }
+
+  @media(max-width:600px) {
+    .hero { padding: 60px 5vw 50px; }
+    .hero-deco { display: none; }
+    .form-row { grid-template-columns: 1fr; }
+    .admin-modal { border-radius: 16px 16px 0 0; max-height: 95vh; }
+    .manage-item-actions { flex-direction: column; }
+  }
+
+  .dash-cards{display:grid;grid-template-columns:repeat(5,minmax(120px,1fr));gap:12px;margin-bottom:22px}
+  .dash-card{background:#fff;border:1px solid rgba(232,165,152,.25);border-radius:14px;padding:14px;box-shadow:0 5px 18px rgba(80,48,57,.05)}
+  .dash-card-label{font:600 .72rem 'Lato',sans-serif;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+  .dash-card-value{font:700 1.45rem 'Playfair Display',serif;color:var(--deep);margin-top:5px}
+  .dash-card small{font:.72rem 'Lato',sans-serif;color:var(--muted)}
+  .admin-section-title{font:700 1rem 'Playfair Display',serif;color:var(--deep);margin:4px 0 12px}
+  .admin-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:14px}
+  .admin-toolbar .form-group{min-width:150px;flex:1}
+  .mini-btn{border:0;border-radius:9px;padding:8px 11px;cursor:pointer;font:700 .75rem 'Lato',sans-serif}
+  .btn-sold{background:#4f8f6c;color:#fff}.btn-sold:hover{filter:brightness(.95)}
+  .btn-secondary{background:var(--blush);color:var(--deep)}
+  .status-stock{font-weight:700}.status-low{color:#c47f18}.status-out{color:#b54444}.status-ok{color:#3d7f5a}
+  .admin-table{width:100%;border-collapse:collapse;font:400 .8rem 'Lato',sans-serif}
+  .admin-table th,.admin-table td{padding:10px 8px;border-bottom:1px solid #f1e6e3;text-align:left;vertical-align:middle}
+  .admin-table th{font-size:.7rem;text-transform:uppercase;color:var(--muted)}
+  .admin-empty{color:var(--muted);text-align:center;padding:24px}
+  .category-row{display:flex;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid #f1e6e3}.category-row input{flex:1}
+  .money-positive{color:#3d7f5a}.money-negative{color:#b54444}
+  @media(max-width:800px){.dash-cards{grid-template-columns:repeat(2,1fr)}.admin-table{font-size:.72rem}.admin-table th,.admin-table td{padding:8px 5px}}
+
+</style>
+</head>
+<body>
+
+<!-- ANIMATED BACKGROUND -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- NAVBAR -->
+<nav>
+  <a class="nav-logo" href="#"><span>SDJ</span> Hand Made</a>
+  <div class="nav-links">
+    <a href="#shop">Shop</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <p class="hero-eyebrow">✦ Handcrafted with love</p>
+    <h1 class="hero-title">Every piece<br>tells a <em>story.</em></h1>
+    <p class="hero-sub">Unique handmade accessories — jewelry, hair pieces, bags & more — crafted one at a time, just for you.</p>
+    <div class="hero-cta-row">
+      <a href="#shop" class="btn-primary">Shop the Collection</a>
+      <a href="https://wa.me/79102509" target="_blank" class="btn-outline">Order on WhatsApp</a>
+    </div>
+  </div>
+  <div class="hero-deco">
+    <svg viewBox="0 0 380 380" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="bg-grad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#FCE8E8"/>
+          <stop offset="100%" stop-color="#FDF6F0"/>
+        </radialGradient>
+      </defs>
+      <circle cx="190" cy="190" r="180" fill="url(#bg-grad)"/>
+      <g class="petal-spin">
+        <ellipse cx="190" cy="100" rx="32" ry="72" fill="#F2C4CE" opacity=".7" transform="rotate(0 190 190)"/>
+        <ellipse cx="190" cy="100" rx="32" ry="72" fill="#E8A598" opacity=".55" transform="rotate(45 190 190)"/>
+        <ellipse cx="190" cy="100" rx="32" ry="72" fill="#F2C4CE" opacity=".7" transform="rotate(90 190 190)"/>
+        <ellipse cx="190" cy="100" rx="32" ry="72" fill="#E8A598" opacity=".55" transform="rotate(135 190 190)"/>
+        <ellipse cx="190" cy="100" rx="32" ry="72" fill="#F2C4CE" opacity=".7" transform="rotate(180 190 190)"/>
+        <ellipse cx="190" cy="100" rx="32" ry="72" fill="#E8A598" opacity=".55" transform="rotate(225 190 190)"/>
+        <ellipse cx="190" cy="100" rx="32" ry="72" fill="#F2C4CE" opacity=".7" transform="rotate(270 190 190)"/>
+        <ellipse cx="190" cy="100" rx="32" ry="72" fill="#E8A598" opacity=".55" transform="rotate(315 190 190)"/>
+      </g>
+      <g class="petal-spin-rev">
+        <ellipse cx="190" cy="140" rx="18" ry="40" fill="#F2C4CE" opacity=".4" transform="rotate(22 190 190)"/>
+        <ellipse cx="190" cy="140" rx="18" ry="40" fill="#E8A598" opacity=".35" transform="rotate(112 190 190)"/>
+        <ellipse cx="190" cy="140" rx="18" ry="40" fill="#F2C4CE" opacity=".4" transform="rotate(202 190 190)"/>
+        <ellipse cx="190" cy="140" rx="18" ry="40" fill="#E8A598" opacity=".35" transform="rotate(292 190 190)"/>
+      </g>
+      <g class="sparkle-float" style="transform-origin:190px 190px">
+        <polygon points="190,160 215,182 190,225 165,182" fill="#FFF9F5" stroke="#E8A598" stroke-width="2"/>
+        <polygon points="190,160 215,182 190,182" fill="#F2C4CE" opacity=".8"/>
+        <polygon points="190,160 165,182 190,182" fill="#E8D6F2" opacity=".7"/>
+        <polygon points="165,182 190,225 190,182" fill="#F2C4CE" opacity=".6"/>
+        <polygon points="215,182 190,225 190,182" fill="#E8A598" opacity=".5"/>
+        <line x1="165" y1="182" x2="215" y2="182" stroke="#fff" stroke-width="1" opacity=".6"/>
+      </g>
+      <text x="58" y="78" font-size="16" fill="#F2C4CE" class="sparkle-float">✦</text>
+      <text x="302" y="58" font-size="10" fill="#E8A598" class="sparkle-float">✦</text>
+      <text x="318" y="302" font-size="18" fill="#F2C4CE" class="sparkle-float">✦</text>
+      <text x="38" y="312" font-size="12" fill="#E8A598" class="sparkle-float">✦</text>
+    </svg>
+  </div>
+</section>
+
+<!-- FEATURES STRIP -->
+<section class="features">
+  <div class="features-grid stagger-children">
+    <div class="feature-item">
+      <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11V6a2 2 0 0 1 4 0v5"/><path d="M11 10V5a2 2 0 0 1 4 0v6"/><path d="M15 10V7a2 2 0 0 1 4 0v6c0 5-3 8-8 8-4 0-6-2-8-5l-1-2a2 2 0 0 1 3-2l2 2"/></svg></span>
+      <div class="feature-title">100% Handmade</div>
+      <p class="feature-text">Every piece crafted by hand, one at a time.</p>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 12L2 9l4-6Z"/><path d="m2 9 10 3 10-3M8 3l4 9 4-9"/></svg></span>
+      <div class="feature-title">Premium Materials</div>
+      <p class="feature-text">Only the finest beads, crystals & metals.</p>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 10c-3-1-4-3-3-5 1-2 4-2 5 1 1-3 4-3 5-1 1 2 0 4-3 5 3 1 4 3 3 5-1 2-4 2-5-1-1 3-4 3-5 1-1-2 0-4 3-5Z"/></svg></span>
+      <div class="feature-title">Unique Designs</div>
+      <p class="feature-text">No two pieces are exactly alike.</p>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m21 8-9 5-9-5 9-5 9 5Z"/><path d="m3 8 9 5 9-5v8l-9 5-9-5V8Z"/><path d="M12 13v8"/></svg></span>
+      <div class="feature-title">Gift Ready</div>
+      <p class="feature-text">Beautifully packaged for gifting.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SHOP -->
+<section id="shop">
+  <div class="section-header reveal">
+    <p class="section-eyebrow">✦ Our Collection</p>
+    <h2 class="section-title">Handmade with <em>heart</em></h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="filter-tabs reveal" id="filterTabs"></div>
+  <div class="products-grid" id="productsGrid"></div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-logo reveal"><span>SDJ</span> Hand Made</div>
+  <p class="footer-tagline reveal">Unique handmade accessories, crafted with love.</p>
+  <div class="footer-social reveal">
+    <a href="https://www.instagram.com/sj._.handmade/?utm_source=ig_web_button_share_sheet" target="_blank" class="social-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      Instagram
+    </a>
+    <a href="https://wa.me/79102509" target="_blank" class="social-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      WhatsApp
+    </a>
+  </div>
+  <div class="footer-copy">© 2025 SDJ Hand Made · All rights reserved · Powered by love</div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a class="wa-float" href="https://wa.me/79102509" target="_blank" title="Order on WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<div id="toast"></div>
+
+<!-- ADMIN OVERLAY -->
+<div id="admin-overlay">
+  <div class="admin-modal">
+    <div class="admin-header">
+      <h2><span class="ui-icon" style="width:20px;height:20px;margin-right:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21h-4v-.1a1.7 1.7 0 0 0-.4-1.1 1.7 1.7 0 0 0-1-.6 1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H3v-4h.1a1.7 1.7 0 0 0 1.1-.4 1.7 1.7 0 0 0 .6-1 1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3h4v.1a1.7 1.7 0 0 0 .4 1.1 1.7 1.7 0 0 0 1 .6 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9c.1.37.3.71.6 1 .3.29.69.43 1.1.4h.1v4h-.1a1.7 1.7 0 0 0-1.1.4 1.7 1.7 0 0 0-.6 1Z"/></svg></span>SDJ Admin Panel</h2>
+      <button class="admin-close" onclick="closeAdmin()">✕</button>
+    </div>
+    <div class="admin-body">
+      <div id="admin-login">
+        <h3>Admin Login</h3>
+        <p>Enter your password to manage products.</p>
+        <input class="admin-input" id="admin-pass" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')adminLogin()"/>
+        <div class="admin-error" id="admin-error">Incorrect password. Try again.</div>
+        <button class="admin-login-btn" onclick="adminLogin()">Log In</button>
+      </div>
+      <div id="admin-dashboard">
+        <div class="dash-cards">
+          <div class="dash-card"><div class="dash-card-label">Products</div><div class="dash-card-value" id="d-products">0</div><small>different products</small></div>
+          <div class="dash-card"><div class="dash-card-label">Stock</div><div class="dash-card-value" id="d-stock">0</div><small>pieces available</small></div>
+          <div class="dash-card"><div class="dash-card-label">Sold</div><div class="dash-card-value" id="d-sold">0</div><small>pieces sold</small></div>
+          <div class="dash-card"><div class="dash-card-label">Revenue</div><div class="dash-card-value" id="d-revenue">$0.00</div><small>all sales</small></div>
+          <div class="dash-card"><div class="dash-card-label">Balance</div><div class="dash-card-value" id="d-balance">$0.00</div><small>sales - expenses</small></div>
+        </div>
+        <div class="admin-tabs">
+          <button class="admin-tab active" onclick="switchTab('add',this)">＋ Product</button>
+          <button class="admin-tab" onclick="switchTab('manage',this)">Products <span class="badge-count" id="prod-count">0</span></button>
+          <button class="admin-tab" onclick="switchTab('categories',this)">Categories</button>
+          <button class="admin-tab" onclick="switchTab('sales',this)">Sales</button>
+          <button class="admin-tab" onclick="switchTab('expenses',this)">Expenses</button>
+        </div>
+        <div id="tab-add">
+          <div class="admin-form" id="productForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Product Name</label>
+                <input class="admin-input" id="f-name" placeholder="e.g. Rose Gold Bracelet"/>
+              </div>
+              <div class="form-group">
+                <label>Price (USD)</label>
+                <input class="admin-input" id="f-price" type="number" min="0" step="0.01" placeholder="e.g. 12.50"/>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Category</label>
+<select class="form-select" id="f-cat"></select>
+              </div>
+              <div class="form-group">
+                <label>Badge (optional)</label>
+                <input class="admin-input" id="f-badge" placeholder="e.g. New, Sale, Bestseller"/>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Stock Quantity</label>
+                <input class="admin-input" id="f-stock" type="number" min="0" step="1" value="0"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea class="form-textarea" id="f-desc" placeholder="Short description of the product..."></textarea>
+            </div>
+            <div class="form-group">
+              <label>Product Photo</label>
+              <div class="img-preview-wrap" onclick="document.getElementById('f-img').click()">
+                <p><span class="ui-icon" style="width:18px;height:18px;margin-right:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h3l2-3h6l2 3h3v13H4V7Z"/><circle cx="12" cy="13" r="4"/></svg></span>Click to upload a photo</p>
+                <input type="file" id="f-img" accept="image/*" style="display:none" onchange="previewImg(this)"/>
+                <img id="f-img-preview" style="display:none"/>
+              </div>
+            </div>
+            <input type="hidden" id="f-edit-id"/>
+            <button class="admin-submit-btn" id="submitBtn" onclick="saveProduct()">Add Product</button>
+          </div>
+        </div>
+        <div id="tab-manage" style="display:none">
+          <div class="manage-list" id="manageList"></div>
+        </div>
+        <div id="tab-categories" style="display:none">
+          <div class="admin-toolbar"><div class="form-group"><label>New Category</label><input class="admin-input" id="new-category" placeholder="Category name"></div><button class="admin-submit-btn" style="width:auto" onclick="addCategory()">Add Category</button></div>
+          <div id="categoryList"></div>
+        </div>
+        <div id="tab-sales" style="display:none">
+          <div class="admin-section-title">Register Sale</div>
+          <div class="admin-toolbar">
+            <div class="form-group"><label>Product</label><select class="form-select" id="sale-product" onchange="fillSalePrice()"></select></div>
+            <div class="form-group"><label>Qty</label><input class="admin-input" id="sale-qty" type="number" min="1" value="1"></div>
+            <div class="form-group"><label>Unit Price $</label><input class="admin-input" id="sale-price" type="number" min="0" step="0.01"></div>
+            <div class="form-group"><label>Date</label><input class="admin-input" id="sale-date" type="datetime-local"></div>
+            <input type="hidden" id="sale-edit-id"><button class="admin-submit-btn" style="width:auto" id="sale-save-btn" onclick="saveSale()">Save Sale</button>
+          </div>
+          <div class="admin-toolbar"><div class="form-group"><label>From</label><input class="admin-input" id="sales-from" type="date"></div><div class="form-group"><label>To</label><input class="admin-input" id="sales-to" type="date"></div><button class="mini-btn btn-secondary" onclick="fetchSales()">Filter</button><button class="mini-btn btn-secondary" onclick="clearSaleFilter()">Clear</button></div>
+          <div id="salesList"></div>
+        </div>
+        <div id="tab-expenses" style="display:none">
+          <div class="admin-section-title">Expenses</div>
+          <div class="admin-toolbar"><div class="form-group"><label>Name</label><input class="admin-input" id="exp-name" placeholder="e.g. Packaging"></div><div class="form-group"><label>Amount $</label><input class="admin-input" id="exp-amount" type="number" min="0.01" step="0.01"></div><div class="form-group"><label>Date</label><input class="admin-input" id="exp-date" type="date"></div><div class="form-group"><label>Note</label><input class="admin-input" id="exp-note"></div><input type="hidden" id="exp-edit-id"><button class="admin-submit-btn" style="width:auto" onclick="saveExpense()">Save</button></div>
+          <div id="expensesList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ════════════════════════════════
+   ANIMATED BACKGROUND — floating petals + sparkles
+   ════════════════════════════════ */
+(function() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+
+  const PARTICLES = [];
+  const COUNT = 38;
+
+  const SHAPES = ['heart','star','ring','flower'];
+  const COLORS = ['rgba(242,196,206,{a})','rgba(232,165,152,{a})','rgba(216,196,242,{a})','rgba(200,180,235,{a})','rgba(240,216,210,{a})'];
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = document.body.scrollHeight;
+  }
+
+  function randomBetween(a, b) { return a + Math.random() * (b - a); }
+
+  function createParticle() {
+    return {
+      x: randomBetween(0, window.innerWidth),
+      y: randomBetween(0, document.body.scrollHeight),
+      vx: randomBetween(-0.15, 0.15),
+      vy: randomBetween(-0.3, -0.08),
+      size: randomBetween(6, 22),
+      opacity: randomBetween(0.06, 0.22),
+      opacityDir: Math.random() > .5 ? 1 : -1,
+      opacitySpeed: randomBetween(0.0005, 0.002),
+      rotation: randomBetween(0, Math.PI * 2),
+      rotSpeed: randomBetween(-0.005, 0.005),
+      shape: SHAPES[Math.floor(Math.random() * SHAPES.length)],
+      color: COLORS[Math.floor(Math.random() * COLORS.length)],
+    };
+  }
+
+  function initParticles() {
+    PARTICLES.length = 0;
+    for (let i = 0; i < COUNT; i++) PARTICLES.push(createParticle());
+  }
+
+  function drawHeart(ctx, size, color) {
+    ctx.fillStyle = color;
+    const s = size / 2;
+    ctx.beginPath();
+    ctx.moveTo(0, s * 0.6);
+    ctx.bezierCurveTo(-s, -s * 0.3, -s * 0.5, -s * 1.1, 0, -s * 0.4);
+    ctx.bezierCurveTo(s * 0.5, -s * 1.1, s, -s * 0.3, 0, s * 0.6);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  function drawStar(ctx, size, color) {
+    ctx.fillStyle = color;
+    ctx.font = `${size}px serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('✦', 0, 0);
+  }
+
+  function drawRing(ctx, size, color) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1.4;
+    ctx.beginPath();
+    ctx.arc(0, 0, size / 2, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+
+  function drawFlower(ctx, size, color) {
+    ctx.fillStyle = color;
+    const r = size / 4;
+    for (let i = 0; i < 5; i++) {
+      const angle = (Math.PI * 2 / 5) * i;
+      const px = Math.cos(angle) * r;
+      const py = Math.sin(angle) * r;
+      ctx.beginPath();
+      ctx.arc(px, py, r * 0.85, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.beginPath();
+    ctx.arc(0, 0, r * 0.6, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  function getColor(p) {
+    return p.color.replace('{a}', p.opacity.toFixed(3));
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (const p of PARTICLES) {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.rotation += p.rotSpeed;
+      p.opacity += p.opacitySpeed * p.opacityDir;
+      if (p.opacity > 0.22 || p.opacity < 0.04) p.opacityDir *= -1;
+
+      // wrap around
+      if (p.y < -40) p.y = canvas.height + 20;
+      if (p.x < -40) p.x = canvas.width + 20;
+      if (p.x > canvas.width + 40) p.x = -20;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation);
+
+      const c = getColor(p);
+      if (p.shape === 'heart') drawHeart(ctx, p.size, c);
+      else if (p.shape === 'star') drawStar(ctx, p.size * 1.4, c);
+      else if (p.shape === 'ring') drawRing(ctx, p.size, c);
+      else drawFlower(ctx, p.size, c);
+
+      ctx.restore();
+    }
+    requestAnimationFrame(animate);
+  }
+
+  resize();
+  initParticles();
+  animate();
+
+  window.addEventListener('resize', () => { resize(); });
+  // re-init on DOM mutation (new content loaded)
+  new MutationObserver(() => { resize(); }).observe(document.body, { childList: true, subtree: true });
+})();
+
+/* ════════════════════════════════
+   SCROLL REVEAL — IntersectionObserver
+   ════════════════════════════════ */
+function initReveal() {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .stagger-children').forEach(el => io.observe(el));
+}
+
+/* ════════════════════════════════
+   PRODUCT CARDS staggered reveal
+   ════════════════════════════════ */
+function revealCards() {
+  const cards = document.querySelectorAll('.product-card');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('card-visible'), i * 80);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  cards.forEach(c => io.observe(c));
+}
+
+/* ════════════════════════════════
+   DATA — now backed by a real database via the API
+   ════════════════════════════════ */
+
+// Backend URL: localhost when testing on your PC, Render when live on Netlify.
+// ⚠️ Make sure RENDER_URL matches your Render service URL exactly (no slash at the end).
+const RENDER_URL = "https://sdjhandmade-backend.onrender.com";
+const API_BASE = (location.hostname === "localhost" || location.hostname === "127.0.0.1")
+  ? "http://localhost:3000"
+  : RENDER_URL;
+
+let products = [];
+let categories = [];
+let sales = [];
+let expenses = [];
+let pendingImageFile = null; // holds the actual File object selected in the form
+
+function iconSvg(type, cls='ui-icon') {
+  const icons = {
+    jewelry: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="14" r="6"/><path d="m8 6 4-3 4 3-4 4-4-4Z"/></svg>',
+    flower: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="2"/><path d="M12 10c-3-1-4-3-3-5 1-2 4-2 5 1 1-3 4-3 5-1 1 2 0 4-3 5 3 1 4 3 3 5-1 2-4 2-5-1-1 3-4 3-5 1-1-2 0-4 3-5Z"/></svg>',
+    bag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 8h14l-1 13H6L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>',
+    bracelet: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="5" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/><circle cx="5" cy="12" r="1.5"/></svg>',
+    necklace: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4c0 7 2.5 12 7 14 4.5-2 7-7 7-14"/><path d="m12 18 2 2-2 2-2-2 2-2Z"/></svg>',
+    gem: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h12l4 6-10 12L2 9l4-6Z"/><path d="m2 9 10 3 10-3M8 3l4 9 4-9"/></svg>',
+    gift: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10h18v11H3zM2 7h20v3H2zM12 7v14"/><path d="M12 7H8.5A2.5 2.5 0 1 1 11 4.5L12 7Zm0 0h3.5A2.5 2.5 0 1 0 13 4.5L12 7Z"/></svg>'
+  };
+  return `<span class="${cls}">${icons[type] || icons.gift}</span>`;
+}
+
+const CATEGORY_ICONS = {
+  "Jewelry":"jewelry","Hair Accessories":"flower","Bags & Keychains":"bag",
+  "Bracelets":"bracelet","Necklaces":"necklace","Rings":"gem","Other":"gift"
+};
+
+function categoryIcon(category) { return iconSvg(CATEGORY_ICONS[category] || 'gift'); }
+
+function fullImageUrl(image_url) {
+  if (!image_url) return '';
+  // already absolute (e.g. http://...) leave as-is, otherwise prefix with API base
+  return /^https?:\/\//i.test(image_url) ? image_url : API_BASE + image_url;
+}
+
+async function fetchProducts() {
+  try {
+    const res = await fetch(`${API_BASE}/api/products`);
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(body.error || 'Failed to load products');
+    products = body;
+  } catch (err) {
+    console.error(err);
+    showToast(err.message || 'Could not connect to the server.');
+    products = [];
+  }
+  buildFilters();
+  renderProducts();
+}
+
+function renderProducts(filter='all') {
+  const grid = document.getElementById('productsGrid');
+  const list = filter === 'all' ? products : products.filter(p => p.category === filter);
+  if (list.length === 0) {
+    grid.innerHTML = `<div class="empty-state"><div class="emoji">${iconSvg('flower')}</div><p>No products in this category yet.</p></div>`;
+    return;
+  }
+  grid.innerHTML = list.map(p => `
+    <div class="product-card">
+      <div class="product-img-wrap">
+        ${p.image_url
+          ? `<img src="${fullImageUrl(p.image_url)}" alt="${p.name}"/>`
+          : `<div class="product-no-img">${categoryIcon(p.category)}<span>Photo coming soon</span></div>`}
+        ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+      </div>
+      <div class="product-info">
+        <div class="product-category">${p.category}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-desc">${p.description || ''}</div>
+        <div class="product-footer">
+          <span class="product-price">$${parseFloat(p.price).toFixed(2)}</span>
+          <button class="product-order-btn" onclick="orderProduct('${p.name}')">Order ✦</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  setTimeout(revealCards, 50);
+}
+
+function buildFilters() {
+  const cats = ['all', ...new Set(products.map(p => p.category))];
+  const tabs = document.getElementById('filterTabs');
+  tabs.innerHTML = cats.map(c =>
+    `<button class="filter-tab ${c==='all'?'active':''}" data-cat="${c}" onclick="setFilter('${c}',this)">${c==='all'?'All':c}</button>`
+  ).join('');
+}
+
+function setFilter(cat, el) {
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderProducts(cat);
+}
+
+function orderProduct(name) {
+  const msg = encodeURIComponent(`Hi! I'd like to order: ${name}`);
+  window.open(`https://wa.me/79102509?text=${msg}`, '_blank');
+}
+
+/* ════════════════════════════════
+   ADMIN
+   ════════════════════════════════ */
+function openAdmin(e) { e.preventDefault(); document.getElementById('admin-overlay').classList.add('open'); }
+function closeAdmin() { document.getElementById('admin-overlay').classList.remove('open'); resetForm(); }
+document.getElementById('admin-overlay').addEventListener('click', function(e){ if(e.target===this) closeAdmin(); });
+
+async function apiJson(url, options={}) {
+  const res = await fetch(url, options); let body={}; try{ body=await res.json(); }catch(_e){}
+  if(!res.ok) throw new Error(body.error || 'Request failed'); return body;
+}
+async function adminLogin() {
+  const p = document.getElementById('admin-pass').value;
+  try {
+    const res = await fetch(`${API_BASE}/api/auth/login`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:p})});
+    if (!res.ok) { document.getElementById('admin-error').style.display='block'; return; }
+    document.getElementById('admin-login').style.display='none'; document.getElementById('admin-dashboard').style.display='block'; document.getElementById('admin-error').style.display='none';
+    await Promise.all([fetchProducts(), fetchCategories(), fetchSales(), fetchExpenses()]);
+    renderManageList(); updateCount(); updateDashboard(); setDefaultDates();
+  } catch(err){ showToast('Could not reach the server.'); }
+}
+function switchTab(tab, el) {
+  document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active')); el.classList.add('active');
+  ['add','manage','categories','sales','expenses'].forEach(x=>document.getElementById(`tab-${x}`).style.display=x===tab?'block':'none');
+  if(tab==='manage') renderManageList(); if(tab==='categories') renderCategories(); if(tab==='sales'){renderSales(); refreshSaleProducts();} if(tab==='expenses') renderExpenses();
+}
+function setDefaultDates(){ const now=new Date(); const local=new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString(); if(!document.getElementById('sale-date').value)document.getElementById('sale-date').value=local.slice(0,16); if(!document.getElementById('exp-date').value)document.getElementById('exp-date').value=local.slice(0,10); }
+async function fetchCategories(){ try{ categories=await apiJson(`${API_BASE}/api/categories`); renderCategoryOptions(); }catch(e){categories=[];} }
+function renderCategoryOptions(){ const sel=document.getElementById('f-cat'); const current=sel.value; sel.innerHTML=categories.map(c=>`<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join('') || '<option value="Other">Other</option>'; if([...sel.options].some(o=>o.value===current))sel.value=current; }
+function renderCategories(){ const box=document.getElementById('categoryList'); box.innerHTML=categories.length?categories.map(c=>`<div class="category-row"><input class="admin-input" id="cat-${c.id}" value="${escapeHtml(c.name)}"><button class="mini-btn btn-secondary" onclick="renameCategory(${c.id})">Save</button><button class="mini-btn btn-delete" onclick="deleteCategory(${c.id})">Delete</button></div>`).join(''):'<div class="admin-empty">No categories yet.</div>'; }
+async function addCategory(){ const name=document.getElementById('new-category').value.trim(); if(!name)return showToast('Enter category name.'); try{await apiJson(`${API_BASE}/api/categories`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name})});document.getElementById('new-category').value='';await fetchCategories();renderCategories();showToast('Category added.');}catch(e){showToast(e.message);} }
+async function renameCategory(id){ const name=document.getElementById(`cat-${id}`).value.trim(); try{await apiJson(`${API_BASE}/api/categories/${id}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({name})});await Promise.all([fetchCategories(),fetchProducts()]);renderCategories();renderManageList();showToast('Category updated.');}catch(e){showToast(e.message);} }
+async function deleteCategory(id){ if(!confirm('Delete this category?'))return; try{await apiJson(`${API_BASE}/api/categories/${id}`,{method:'DELETE'});await fetchCategories();renderCategories();showToast('Category deleted.');}catch(e){showToast(e.message);} }
+function previewImg(input){const file=input.files[0];if(!file)return;pendingImageFile=file;const r=new FileReader();r.onload=e=>{const prev=document.getElementById('f-img-preview');prev.src=e.target.result;prev.style.display='block';document.querySelector('.img-preview-wrap p').style.display='none';};r.readAsDataURL(file);}
+async function saveProduct(){
+  const name=document.getElementById('f-name').value.trim(), price=document.getElementById('f-price').value, cat=document.getElementById('f-cat').value, desc=document.getElementById('f-desc').value.trim(), badge=document.getElementById('f-badge').value.trim(), stock=document.getElementById('f-stock').value, editId=document.getElementById('f-edit-id').value;
+  if(!name||price==='')return showToast('Please fill in name and price.');
+  const fd=new FormData(); [['name',name],['price',price],['category',cat],['description',desc],['badge',badge],['stock',stock||0]].forEach(([k,v])=>fd.append(k,v)); if(pendingImageFile)fd.append('image',pendingImageFile);
+  const btn=document.getElementById('submitBtn');btn.disabled=true;
+  try{await apiJson(editId?`${API_BASE}/api/products/${editId}`:`${API_BASE}/api/products`,{method:editId?'PUT':'POST',body:fd});showToast(editId?'Product updated!':'Product added!');await fetchProducts();renderManageList();updateCount();updateDashboard();refreshSaleProducts();resetForm();}catch(e){showToast(e.message);}finally{btn.disabled=false;}
+}
+function editProduct(id){const p=products.find(x=>x.id==id);if(!p)return;document.getElementById('f-name').value=p.name;document.getElementById('f-price').value=p.price;document.getElementById('f-cat').value=p.category;document.getElementById('f-desc').value=p.description||'';document.getElementById('f-badge').value=p.badge||'';document.getElementById('f-stock').value=p.stock??0;document.getElementById('f-edit-id').value=p.id;pendingImageFile=null;const btn=document.getElementById('submitBtn');btn.textContent='Save Changes';btn.classList.add('edit-mode');if(p.image_url){const prev=document.getElementById('f-img-preview');prev.src=fullImageUrl(p.image_url);prev.style.display='block';document.querySelector('.img-preview-wrap p').style.display='none';}switchTab('add',document.querySelector('.admin-tab'));}
+async function deleteProduct(id){if(!confirm('Delete this product?'))return;try{await apiJson(`${API_BASE}/api/products/${id}`,{method:'DELETE'});await fetchProducts();renderManageList();updateCount();updateDashboard();showToast('Product deleted.');}catch(e){showToast(e.message);} }
+function resetForm(){['f-name','f-price','f-badge','f-desc','f-edit-id'].forEach(id=>document.getElementById(id).value='');document.getElementById('f-stock').value='0';if(document.getElementById('f-cat').options.length)document.getElementById('f-cat').selectedIndex=0;pendingImageFile=null;const prev=document.getElementById('f-img-preview');prev.src='';prev.style.display='none';document.querySelector('.img-preview-wrap p').style.display='block';const btn=document.getElementById('submitBtn');btn.textContent='Add Product';btn.classList.remove('edit-mode');}
+function stockClass(n){return Number(n)<=0?'status-out':Number(n)<=2?'status-low':'status-ok';}
+function renderManageList(){const list=document.getElementById('manageList');if(!products.length){list.innerHTML='<div class="admin-empty">No products yet.</div>';return;}list.innerHTML=products.map(p=>`<div class="manage-item"><div class="manage-item-img">${p.image_url?`<img src="${fullImageUrl(p.image_url)}"/>`:categoryIcon(p.category)}</div><div class="manage-item-info"><div class="manage-item-name">${escapeHtml(p.name)}</div><div class="manage-item-meta">${escapeHtml(p.category)} · $${Number(p.price).toFixed(2)} · <span class="status-stock ${stockClass(p.stock)}">Stock: ${Number(p.stock||0)}</span>${p.badge?' · '+escapeHtml(p.badge):''}</div></div><div class="manage-item-actions"><button class="mini-btn btn-sold" onclick="quickSell(${p.id})" ${Number(p.stock||0)<=0?'disabled':''}>Sold 1</button><button class="btn-edit" onclick="editProduct(${p.id})">Edit</button><button class="btn-delete" onclick="deleteProduct(${p.id})">Delete</button></div></div>`).join('');}
+function updateCount(){document.getElementById('prod-count').textContent=products.length;}
+function refreshSaleProducts(){const sel=document.getElementById('sale-product');if(!sel)return;const cur=sel.value;sel.innerHTML=products.map(p=>`<option value="${p.id}">${escapeHtml(p.name)} — stock ${Number(p.stock||0)}</option>`).join('');if([...sel.options].some(o=>o.value===cur))sel.value=cur;fillSalePrice();}
+function fillSalePrice(){const p=products.find(x=>x.id==document.getElementById('sale-product').value);if(p&&!document.getElementById('sale-edit-id').value)document.getElementById('sale-price').value=Number(p.price).toFixed(2);}
+async function quickSell(id){const p=products.find(x=>x.id==id);if(!p||Number(p.stock)<=0)return showToast('Out of stock.');try{await apiJson(`${API_BASE}/api/sales`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({product_id:id,quantity:1,unit_price:Number(p.price)})});await Promise.all([fetchProducts(),fetchSales()]);renderManageList();refreshSaleProducts();updateDashboard();showToast('1 piece marked as sold.');}catch(e){showToast(e.message);} }
+async function fetchSales(){try{sales=await apiJson(`${API_BASE}/api/sales`);renderSales();updateDashboard();}catch(e){showToast(e.message);} }
+function clearSaleFilter(){document.getElementById('sales-from').value='';document.getElementById('sales-to').value='';fetchSales();}
+async function saveSale(){const editId=document.getElementById('sale-edit-id').value;const product_id=Number(document.getElementById('sale-product').value),quantity=Number(document.getElementById('sale-qty').value),unit_price=Number(document.getElementById('sale-price').value),sold_at=document.getElementById('sale-date').value;if(!product_id||quantity<1||unit_price<0)return showToast('Check sale details.');try{await apiJson(editId?`${API_BASE}/api/sales/${editId}`:`${API_BASE}/api/sales`,{method:editId?'PUT':'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({product_id,quantity,unit_price,sold_at})});resetSaleForm();await Promise.all([fetchProducts(),fetchSales()]);renderManageList();refreshSaleProducts();updateDashboard();showToast(editId?'Sale updated.':'Sale saved.');}catch(e){showToast(e.message);} }
+function editSale(id){const x=sales.find(s=>s.id==id);if(!x)return;document.getElementById('sale-edit-id').value=x.id;document.getElementById('sale-product').value=x.product_id;document.getElementById('sale-qty').value=x.quantity;document.getElementById('sale-price').value=x.unit_price;const d=new Date(x.sold_at);document.getElementById('sale-date').value=new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16);document.getElementById('sale-save-btn').textContent='Update Sale';}
+function resetSaleForm(){document.getElementById('sale-edit-id').value='';document.getElementById('sale-qty').value=1;document.getElementById('sale-save-btn').textContent='Save Sale';setDefaultDates();fillSalePrice();}
+async function deleteSale(id){if(!confirm('Delete this sale and return stock?'))return;try{await apiJson(`${API_BASE}/api/sales/${id}`,{method:'DELETE'});await Promise.all([fetchProducts(),fetchSales()]);renderManageList();refreshSaleProducts();updateDashboard();showToast('Sale deleted and stock restored.');}catch(e){showToast(e.message);} }
+function renderSales(){const box=document.getElementById('salesList');if(!box)return;const from=document.getElementById('sales-from')?.value||'',to=document.getElementById('sales-to')?.value||'';const visible=sales.filter(x=>{const d=new Date(x.sold_at);const day=new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10);return(!from||day>=from)&&(!to||day<=to);});if(!visible.length){box.innerHTML='<div class="admin-empty">No sales in this period.</div>';return;}box.innerHTML=`<table class="admin-table"><thead><tr><th>Date</th><th>Product</th><th>Qty</th><th>Unit</th><th>Total</th><th></th></tr></thead><tbody>${visible.map(x=>`<tr><td>${new Date(x.sold_at).toLocaleString()}</td><td>${escapeHtml(x.product_name)}</td><td>${x.quantity}</td><td>$${Number(x.unit_price).toFixed(2)}</td><td><b>$${Number(x.total).toFixed(2)}</b></td><td><button class="mini-btn btn-secondary" onclick="editSale(${x.id})">Edit</button> <button class="mini-btn btn-delete" onclick="deleteSale(${x.id})">Delete</button></td></tr>`).join('')}</tbody></table>`;}
+async function fetchExpenses(){try{expenses=await apiJson(`${API_BASE}/api/expenses`);renderExpenses();updateDashboard();}catch(e){expenses=[];} }
+async function saveExpense(){const id=document.getElementById('exp-edit-id').value,name=document.getElementById('exp-name').value.trim(),amount=Number(document.getElementById('exp-amount').value),expense_date=document.getElementById('exp-date').value,note=document.getElementById('exp-note').value.trim();if(!name||amount<=0)return showToast('Check expense details.');try{await apiJson(id?`${API_BASE}/api/expenses/${id}`:`${API_BASE}/api/expenses`,{method:id?'PUT':'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,amount,expense_date,note})});resetExpenseForm();await fetchExpenses();updateDashboard();showToast(id?'Expense updated.':'Expense added.');}catch(e){showToast(e.message);} }
+function editExpense(id){const x=expenses.find(e=>e.id==id);if(!x)return;document.getElementById('exp-edit-id').value=x.id;document.getElementById('exp-name').value=x.name;document.getElementById('exp-amount').value=x.amount;document.getElementById('exp-date').value=x.expense_date;document.getElementById('exp-note').value=x.note||'';}
+function resetExpenseForm(){['exp-edit-id','exp-name','exp-amount','exp-note'].forEach(id=>document.getElementById(id).value='');setDefaultDates();}
+async function deleteExpense(id){if(!confirm('Delete this expense?'))return;try{await apiJson(`${API_BASE}/api/expenses/${id}`,{method:'DELETE'});await fetchExpenses();updateDashboard();showToast('Expense deleted.');}catch(e){showToast(e.message);} }
+function renderExpenses(){const box=document.getElementById('expensesList');if(!box)return;if(!expenses.length){box.innerHTML='<div class="admin-empty">No expenses yet.</div>';return;}box.innerHTML=`<table class="admin-table"><thead><tr><th>Date</th><th>Name</th><th>Note</th><th>Amount</th><th></th></tr></thead><tbody>${expenses.map(x=>`<tr><td>${x.expense_date}</td><td>${escapeHtml(x.name)}</td><td>${escapeHtml(x.note||'')}</td><td class="money-negative">-$${Number(x.amount).toFixed(2)}</td><td><button class="mini-btn btn-secondary" onclick="editExpense(${x.id})">Edit</button> <button class="mini-btn btn-delete" onclick="deleteExpense(${x.id})">Delete</button></td></tr>`).join('')}</tbody></table>`;}
+function updateDashboard(){if(!document.getElementById('d-products'))return;const stock=products.reduce((a,p)=>a+Number(p.stock||0),0),sold=sales.reduce((a,x)=>a+Number(x.quantity||0),0),revenue=sales.reduce((a,x)=>a+Number(x.total||0),0),expenseTotal=expenses.reduce((a,x)=>a+Number(x.amount||0),0),balance=revenue-expenseTotal;document.getElementById('d-products').textContent=products.length;document.getElementById('d-stock').textContent=stock;document.getElementById('d-sold').textContent=sold;document.getElementById('d-revenue').textContent='$'+revenue.toFixed(2);const b=document.getElementById('d-balance');b.textContent='$'+balance.toFixed(2);b.className='dash-card-value '+(balance<0?'money-negative':'money-positive');}
+function escapeHtml(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+/* INIT */
+fetchProducts();
+initReveal();
+
+/* SECRET ADMIN — visit yoursite.html#admin to open */
+function checkAdminHash() {
+  if (window.location.hash === '#admin') {
+    document.getElementById('admin-overlay').classList.add('open');
+    history.replaceState(null, '', window.location.pathname);
+  }
+}
+checkAdminHash();
+window.addEventListener('hashchange', checkAdminHash);
+</script>
+</body>
+</html>
