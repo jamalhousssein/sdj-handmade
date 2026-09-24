@@ -1,0 +1,8 @@
+const express = require('express');
+const supabase = require('../db/database');
+const router = express.Router();
+router.get('/', async (_req,res)=>{ const {data,error}=await supabase.from('expenses').select('*').order('expense_date',{ascending:false}); if(error)return res.status(500).json({error:error.message}); res.json(data||[]); });
+router.post('/', async (req,res)=>{ const amount=Number(req.body.amount); if(!Number.isFinite(amount)||amount<=0)return res.status(400).json({error:'Invalid amount'}); const payload={name:String(req.body.name||'Expense').trim(),amount,note:String(req.body.note||'').trim(),expense_date:req.body.expense_date||new Date().toISOString().slice(0,10)}; const {data,error}=await supabase.from('expenses').insert(payload).select().single(); if(error)return res.status(400).json({error:error.message}); res.status(201).json(data); });
+router.put('/:id', async (req,res)=>{ const amount=Number(req.body.amount); if(!Number.isFinite(amount)||amount<=0)return res.status(400).json({error:'Invalid amount'}); const {data,error}=await supabase.from('expenses').update({name:String(req.body.name||'Expense').trim(),amount,note:String(req.body.note||'').trim(),expense_date:req.body.expense_date,updated_at:new Date().toISOString()}).eq('id',req.params.id).select().single(); if(error)return res.status(400).json({error:error.message}); res.json(data); });
+router.delete('/:id', async (req,res)=>{ const {error}=await supabase.from('expenses').delete().eq('id',req.params.id); if(error)return res.status(400).json({error:error.message}); res.json({success:true}); });
+module.exports=router;
